@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title><%=data.title%></title>
+  <style>
+      #list a{display:block;}
+  </style>
+</head>
+<body>
+<div>
+<div>列表</div>
+<%for (var i=0; i<data.list.length; i++) {%>
+    <div class="itemBox">
+        <h2><a href="/detail/<%=data.list[i].id%>.html" target="_blank"><%=data.list[i].title%></a></h2>
+    </div>
+<%}%>
+</div>
+
+<div id="list">
+
+</div>
+
+<script>
+var title = '<%=data.title%>';
+var list = <%- JSON.stringify(data.list) %> ;
+console.log(title);
+console.log(list);
+
+list.forEach(function (item, index) {
+  var link_tag = document.createElement('a');
+  link_tag.innerHTML = item.title;
+  link_tag.href = '/detail/' + item.id + '.html'
+  document.getElementById('list').appendChild(link_tag);
+})
+
+</script>
+</body>
+</html>

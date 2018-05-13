@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>upload</title>
+  <link rel="stylesheet" href="/css/css.css">
+  <style>
+    body {padding:10px;}
+    input,select {outline:none; border:0;}
+    .edit-wrapper {display:flex;}
+    .edit-wrapper>div {flex:1;}
+    #editor {padding-right:15px;}
+    .toolbar {background:#f5f5f5;}
+    .text {height:700px;}
+    .text>div {overflow-y:auto;}
+    #preview {border:1px solid #ddd; padding:10px; height:800px; overflow-y:auto;}
+
+    .topBox {display:flex; border-bottom:1px solid #e5e5e5; height:36px; margin-bottom:20px; border-bottom:1px solid #ccc;}
+     #title {flex:1; font-size:22px;}
+    .topBox>.btn {margin-left:20px;}
+
+    .description {padding-bottom:10px;}
+    .description textarea {border:1px solid #d5d5d5; width:100%;}
+  </style>
+</head>
+<body>
+<div class="topBox">
+  <input type="text" id="title" placeholder="输入标题" value="">
+  <input type="text" id="keyword" placeholder="关键字,逗号分开" value="">
+  <select id="select">
+    <option value="">请选择分类</option>
+    <option value="photos">摄影</option>
+    <option value="imgs">文章</option>
+  </select>
+  <div class="writeIn btn">发布</div>
+</div>
+
+<div class="description">
+  <textarea id="description" placeholder="描述"></textarea>
+</div>
+
+<div class="edit-wrapper">
+  <div id="editor">
+    <div id="div1" class="toolbar"></div>
+    <div id="div2" class="text" style="min-height:500px; padding-top:10px;">
+    </div>
+  </div>
+  <div id="preview"></div>
+</div>
+
+<script src="/editor/wangEditor.js"></script>
+<script src="/js/ajax.js"></script>
+
+<script type="text/javascript">
+  var $Select = document.getElementById('select'),
+      $preview = document.getElementById('preview'),
+      $title = document.getElementById('title'),
+      $WriteBtn = document.getElementsByClassName('writeIn')[0],
+      Value = '',
+      imgUrl = '',
+      WriteHtml = '';
+
+  $Select.onchange = function () {
+    var SelectIndex = $Select.selectedIndex;
+    Value = $Select.options[SelectIndex].value;
+  }
+
+  var E = window.wangEditor;
+  var editor = new E('#div1', '#div2');
+
+  editor.customConfig.onchange = function (html) {
+    WriteHtml = html;
+    $preview.innerHTML = html;
+    sessionStorage['writeHtml'] = html
+  }
+  // 上传图片
+  editor.customConfig.customUploadImg = function (files, insert) {
+    if(!Value) {
+      alert('请选择上传分类');
+      return false
+    }
+    var params = {
+      type: Value,
+      img: files[0]
+    }
+    $ajax('post','/upload/imgs',params, function (data) {
+      console.log(data);
+      imgUrl = data.url;
+      var ImgBox = document.createElement('div'),
+          Img = document.createElement('img');
+      Img.src = imgUrl;
+      ImgBox.className = 'imgBox';
+      ImgBox.appendChild(Img);
+      editor.txt.append(ImgBox);
+      // insert(imgUrl)
+    })
+  }
+  editor.create();
+
+  if(sessionStorage['writeHtml']) {
+    editor.txt.html(sessionStorage['writeHtml']);
+    $preview.innerHTML = sessionStorage['writeHtml'];
+  }
+
+  $WriteBtn.onclick = function () {
+    var title = $title.value;
+    if(!title || !Value) {
+      alert('请输入标题或者选择分类');
+      return false
+    }
+    var imgs_url = '';
+    var imgs = $preview.getElementsByTagName('img');
+    for (var i=0; i<imgs.length; i++) {
+      imgs_url += imgs_url ? ',' + imgs[i].src : imgs[i].src ;
+    }
+
+    var params = {
+      type: Value,
+      detail: WriteHtml,
+      title: title,
+      imgs_url: imgs_url,
+      keyword: document.getElementById('keyword').value,
+      description: document.getElementById('description').value,
+      recommend: 0
+    }
+    console.log(params);
+
+    if( confirm('确认发布吗？')== false) {
+      return false
+    }
+
+    $ajax('post','/upload/write', params, function (data) {
+      console.log(data);
+    })
+  }
+</script>
+</body>
+</html>
