@@ -10,6 +10,19 @@
   </style>
 </head>
 <body>
+<script>
+  var arr = window.location.pathname.split('/');
+
+  var title = '<%=data.title%>';
+  var count = '<%=data.count%>';
+
+  var list = <%- JSON.stringify(data.list) %> ;
+  console.log(title);
+  console.log(list);
+  console.log(location);
+
+</script>
+
 <div>
 <div>列表</div>
 <%for (var i=0; i<data.list.length; i++) {%>
@@ -19,23 +32,61 @@
 <%}%>
 </div>
 
+<br>
+<%
+    var count = data.count; // 总数
+    var page = Math.ceil(data.count / 5); //总页
+    var nowpage = data.nowpage // 当前页
+    var path = data.path // 路径
+%>
+<div class="pagebox">
+    <% if(page>=5) {%>
+        <% if(page==nowpage) {%>
+            <a href="<%=path%>_<%=nowpage-4%>.html"><%=nowpage-4%></a>
+        <% } %>
+    <% } %>
+
+    <% if(page>=4) {%>
+        <% if(nowpage>=page-1) {%>
+            <a href="<%=path%>_<%=nowpage-3%>.html"><%=nowpage-3%></a>
+        <% } %>
+    <% } %>
+
+    <% if(nowpage>2) {%>
+        <a href="<%=path%>_<%=nowpage-2%>.html"><%=nowpage-2%></a>
+    <% } %>
+
+    <% if(nowpage>=2) {%>
+        <a href="<%=path%>_<%=nowpage-1%>.html"><%=nowpage-1%></a>
+    <% } %>
+
+    <a><%=nowpage%></a>
+
+    <% if(page>=nowpage+1) {%>
+        <a href="<%=path%>_<%=nowpage+1%>.html"><%=nowpage+1%></a>
+    <% } %>
+
+    <% if(page>=nowpage+2) {%>
+        <a href="<%=path%>_<%=nowpage+2%>.html"><%=nowpage+2%></a>
+    <% } %>
+
+    <% if(page>nowpage+3) {%>
+        <% if(nowpage<=2) {%>
+            <a href="<%=path%>_<%=nowpage+3%>.html"><%=nowpage+3%></a>
+        <% } %>
+    <% } %>
+
+    <% if(page>nowpage+4) {%>
+        <% if(nowpage==1) {%>
+            <a href="<%=path%>_<%=nowpage+4%>.html"><%=nowpage+4%></a>
+        <% } %>
+    <% } %>
+</div>
+<br>
+<br>
 <div id="list">
 
 </div>
 
-<script>
-var title = '<%=data.title%>';
-var list = <%- JSON.stringify(data.list) %> ;
-console.log(title);
-console.log(list);
-
-list.forEach(function (item, index) {
-  var link_tag = document.createElement('a');
-  link_tag.innerHTML = item.title;
-  link_tag.href = '/detail/' + item.id + '.html'
-  document.getElementById('list').appendChild(link_tag);
-})
-
-</script>
 </body>
 </html>

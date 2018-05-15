@@ -1,6 +1,5 @@
 const models = require('./model');
 const Util = require('../utils/util');
-const URL = require('url');
 
 // 查询文章总数
 const getCount = SeachObject => new Promise((resolve) => {
@@ -20,16 +19,17 @@ const findData = (SearchObj, nowPage, num) => new Promise((resolve) => {
 });
 
 exports = module.exports = (req, res) => {
-  let Obj = URL.parse(req.url, true).query;
-  let path = URL.parse(req.url).pathname; //访问的路径
-  let Page = Util.getPageName(path); //当前访问的页面
+  let Page = Util.getPageName(req.url); //当前访问的页面
+  let Arr = Page.split('_');
   let SearchObj = {},
     num = 5, // 每页查询5条
-    nowPage = 0;
+    nowPage = 1;
   if(Page!=='all') {
-    SearchObj.type = Page
+    SearchObj.type = Arr[0]
   }
-  if(Obj.page) nowPage = Obj.page
+
+  if(Arr.length > 1) nowPage = JSON.parse(Arr[1]);
+  //if(Obj.page) nowPage = Obj.page
 
   return Promise.all([getCount(SearchObj), findData(SearchObj, nowPage, num)])
 };

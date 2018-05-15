@@ -1,6 +1,7 @@
 const category = require('../../utils/category');
 const DB_findlist = require('../../model/dbfindlist');
 const DB_One = require('../../model/dbfindone');
+const Util = require('../../utils/util');
 
 const showIndex = (req, res) => {
   res.render('index', {
@@ -9,14 +10,22 @@ const showIndex = (req, res) => {
 }
 
 const showList = (req, res) => {
+  let Page = Util.getPageName(req.url); //当前访问的页面
+  let Arr = Page.split('_');
+  let nowPage = 1;
+  if(Arr.length > 1) nowPage = JSON.parse(Arr[1]);
   DB_findlist(req, res).then((datalist) => {
-    console.log(datalist[0])
+    if (!datalist[1].length) {
+      return res.redirect('/404')
+    }
     res.render('list', {
       "data": {
         title: '列表页',
         count: datalist[0],
         category: category,
-        list: datalist[1]
+        list: datalist[1],
+        nowpage: nowPage,
+        path: Arr[0]
       }
     })
   })
