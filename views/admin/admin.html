@@ -46,7 +46,7 @@
         <% var item =  data.list[i]%>
         <div class="itemBox clearfix">
             <h2 class="fl"><a href="/detail/<%=data.list[i].id%>.html" target="_blank"><%=data.list[i].title%></a></h2>
-            <a class="fr edit" > 编辑 </a>
+            <a class="fr edit" href="/admin/note/all/<%=data.list[i].id%>.html"> 编辑 </a>
             <a class="fr del" onClick="deleteOne(<%=JSON.stringify(data.list[i])%>)">删除</a>
         </div>
         <%}%>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>upload</title>
+  <link rel="stylesheet" href="/css/css.css">
+  <style>
+    body {padding:10px;}
+    input,select {outline:none;}
+    .edit-wrapper {display:flex;}
+    .edit-wrapper>div {flex:1;}
+    #editor {padding-right:15px;}
+    .toolbar {background:#f5f5f5;}
+    .text {height:700px;}
+    .text>div {overflow-y:auto;}
+    #preview {border:1px solid #ddd; padding:10px; height:800px; overflow-y:auto;}
+
+    .topBox {display:flex; border-bottom:1px solid #e5e5e5; height:36px; margin-bottom:20px; border-bottom:1px solid #ccc;}
+    .topBox input {border:0;}
+    #title {flex:1; font-size:22px;}
+    .topBox>.btn {margin-left:20px;}
+
+    .description {padding-bottom:10px;}
+    .description textarea {border:1px solid #d5d5d5; width:100%;}
+  </style>
+</head>
+<body>
+<div class="topBox">
+  <input type="text" id="title" placeholder="输入标题" value="">
+  <div class="writeIn btn">更新</div>
+</div>
+
+<select id="select">
+  <option value="<%=data.detail.type%>"><%=data.detail.type%></option>
+</select>
+
+<select id="select2">
+  <option value="<%=data.detail.articletype%>">
+    <% if (data.detail.articletype == "reprint") {%>
+      转载
+    <% }else {%>
+      原创
+    <% } %>
+  </option>
+</select>
+
+<input type="text" id="keyword" placeholder="关键字,逗号分开" value="">
+<br><br>
+<div class="description">
+  <textarea id="description" placeholder="描述"></textarea>
+</div>
+
+<div class="edit-wrapper">
+  <div id="editor">
+    <div id="div1" class="toolbar"></div>
+    <div id="div2" class="text" style="min-height:500px; padding-top:10px;">
+    </div>
+  </div>
+  <div id="preview"></div>
+</div>
+
+<script src="/js/ajax.js"></script>
+<script src="/editor/wangEditor.js"></script>
+
+<script type="text/javascript">
+  var detail = <%- JSON.stringify(data.detail) %> ;
+  console.log(detail);
+
+  var $preview = document.getElementById('preview'),
+    $title = document.getElementById('title'),
+    $WriteBtn = document.getElementsByClassName('writeIn')[0],
+    Value = detail.type, //上传分类
+    SelectVal2 = detail.articletype, // 类型, 原创还是转载
+    imgUrl = '',
+    WriteHtml = '';  // 文章类容
+
+  // 初始化数据
+  $title.value = detail.title;
+  document.getElementById('keyword').value = detail.keyword;
+  document.getElementById('description').value = detail.description;
+
+  var E = window.wangEditor;
+  var editor = new E('#div1', '#div2');
+  editor.customConfig.onchange = function (html) {
+    WriteHtml = html;
+    $preview.innerHTML = html;
+    sessionStorage['writeHtml'] = html
+  }
+
+  // 上传图片
+  editor.customConfig.customUploadImg = function (files, insert) {
+    var params = {
+      type: Value,
+      img: files[0]
+    }
+    $ajax('post','/upload/imgs',params, function (data) {
+      console.log(data);
+      imgUrl = data.url;
+      var ImgBox = document.createElement('div'),
+        Img = document.createElement('img');
+      Img.src = imgUrl;
+      ImgBox.className = 'imgBox';
+      ImgBox.appendChild(Img);
+      editor.txt.append(ImgBox);
+      // insert(imgUrl)
+    })
+  }
+  editor.create();
+  editor.txt.html(detail.detail);
+
+  if(sessionStorage['writeHtml']) {
+    editor.txt.html(sessionStorage['writeHtml']);
+    $preview.innerHTML = sessionStorage['writeHtml'];
+  }
+
+  $WriteBtn.onclick = function () {
+    var imgs_url = '';
+    var imgs = $preview.getElementsByTagName('img');
+    for (var i=0; i<imgs.length; i++) {
+      imgs_url += imgs_url ? ',' + imgs[i].src : imgs[i].src ;
+    }
+
+    var params = {
+      type: Value,
+      articletype: SelectVal2,
+      detail: WriteHtml,
+      title: $title.value,
+      imgs_url: imgs_url,
+      keyword: document.getElementById('keyword').value,
+      description: document.getElementById('description').value,
+      recommend: detail.recommend
+    }
+    console.log(params);
+
+    if( confirm('确认更新吗？')== false) {
+      return false
+    }
+
+    $ajax('post','/admin/updata', params, function (data) {
+      console.log(data);
+    })
+  }
+</script>
+</body>
+</html>

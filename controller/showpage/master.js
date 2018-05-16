@@ -1,5 +1,6 @@
 const category = require('../../utils/category');
 const DBfind = require('../../model/dbfindlist');  //数据查询
+const DB_One = require('../../model/dbfindone');
 
 const Middleware = (req, res, next) => {
   let loginUser = req.session.loginUser;
@@ -30,8 +31,23 @@ const showAdmin = (req, res) => {
   })
 }
 
+const showUpdata = (req, res) => {
+  DB_One.findOne(req, res).then((result) => {
+    if(!result) {
+      return res.redirect('/404')
+    }
+    res.render('./admin/updata',{
+      'data' : {
+        title: '数据更新',
+        detail: result
+      }
+    })
+  })
+}
+
 module.exports = {
   Middleware,
   showUpload,
-  showAdmin
+  showAdmin,
+  showUpdata
 }

@@ -64,6 +64,20 @@ const deleteData = (req, res) => {
     })
   })
 }
+//更新
+const Updata= (req, res) => {
+  _FormIdable(req).then(Obj => {
+    let UpdataOne = new models.blog(Obj.fields);
+    UpdataOne.update((err) => {
+      if (err) return console.error(err);
+      res.json({
+        ok: 0,
+        msg: '更新成功'
+      })
+    })
+  })
+}
+
 // 登录
 const userLogin = (req, res) => {
   _FormIdable(req).then((Obj) => {
@@ -87,5 +101,6 @@ module.exports = {
   uploadImg,
   writeIn,
   userLogin,
-  deleteData
+  deleteData,
+  Updata
 }

@@ -28,7 +28,6 @@ exports.saveImg = (fields, files) => {
     mkdir(dirpath, function (dir) {
       let oldPath = files.img.path; // 临时路径
       let ImgName = getImgName(oldPath);
-      console.log(ImgName)
       let newPath = dir + '/' + ImgName;
 
       fs.renameSync(oldPath, newPath); //移动文件

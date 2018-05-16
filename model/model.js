@@ -8,7 +8,8 @@ const blogSchema = new mongoose.Schema({
   description: String,
   id: String,
   createtime: String,
-  recommend: Number
+  recommend: Number,
+  articletype: String
 }, {
   collection: 'test'
 });
