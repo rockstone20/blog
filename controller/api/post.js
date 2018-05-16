@@ -40,7 +40,6 @@ const writeIn = (req, res) => {
     let timestamp = dataNow.getTime();
     addBlog.id = addBlog.type + '_' + timestamp;
     addBlog.createtime = dataNow.getFullYear() + '-' + (dataNow.getMonth() + 1) + '-' + dataNow.getDate();
-
     addBlog.save((err) => {
       if (err) return console.error(err);
       res.json({
