@@ -4,6 +4,7 @@ module.exports = app => {
   // post 请求
   app.post("/upload/imgs", Post.uploadImg);
   app.post("/upload/write", Post.writeIn);
+  app.post("/admin/delete", Post.deleteData);
 
   // 登录接口
   app.post('/userlogin', Post.userLogin);

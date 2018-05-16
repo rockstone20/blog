@@ -1,3 +1,4 @@
+const URL = require('url');
 const category = require('../../utils/category');
 const DB_findlist = require('../../model/dbfindlist');
 const DB_One = require('../../model/dbfindone');
@@ -10,7 +11,8 @@ const showIndex = (req, res) => {
 }
 
 const showList = (req, res) => {
-  let Page = Util.getPageName(req.url); //当前访问的页面
+  let path = URL.parse(req.url).pathname;
+  let Page = Util.getPageName(path); //当前访问的页面
   let Arr = Page.split('_');
   let nowPage = 1;
   if(Arr.length > 1) nowPage = JSON.parse(Arr[1]);

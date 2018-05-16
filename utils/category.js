@@ -15,14 +15,11 @@ module.exports = [{
   value: 'react'
 },{
   key: 'node',
-  value: 'nodeJS'
+  value: 'nodeJS...'
 },{
   key: 'linux',
   value: 'linux'
 },{
   key: 'photos',
-  value: '摄影'
-},{
-  key: 'note',
-  value: '随笔杂谈'
+  value: '摄影/随笔'
 }]

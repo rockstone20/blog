@@ -17,7 +17,7 @@ const mkdir = (dirpath, callback) => {
 }
 
 const getImgName = (path) => {
-  let arr = path.split('/')
+  let arr = path.indexOf('/') > -1 ? path.split('/') : path.split('\\') ;
   return arr[arr.length-1]
 }
 
@@ -28,6 +28,7 @@ exports.saveImg = (fields, files) => {
     mkdir(dirpath, function (dir) {
       let oldPath = files.img.path; // 临时路径
       let ImgName = getImgName(oldPath);
+      console.log(ImgName)
       let newPath = dir + '/' + ImgName;
 
       fs.renameSync(oldPath, newPath); //移动文件

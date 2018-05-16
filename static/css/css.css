@@ -4,6 +4,9 @@ body,html {height:100%; font-size:14px; color:#666; font-family:STHeiTi, Helveti
 *{-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 a {color:#333; text-decoration:none;}
 a:hover {color:#000;}
+.clearfix:after {clear:both; content:''; display:block;}
+.fl {float: left;} .fr {float:right;}
+
 
 .btn {background:#1e88e5; color:#fff; border-radius:6px; line-height:36px; text-align:center; padding:0 16px; display:inline-block; cursor:pointer;}
 

@@ -51,6 +51,19 @@ const writeIn = (req, res) => {
   })
 }
 
+//删除
+const deleteData = (req, res) => {
+  _FormIdable(req).then(Obj => {
+    let deleteOne = new models.blog(Obj.fields);
+    deleteOne.remove((err) => {
+      if (err) return console.error(err);
+      res.json({
+        ok: 0,
+        msg: '删除成功'
+      })
+    })
+  })
+}
 // 登录
 const userLogin = (req, res) => {
   _FormIdable(req).then((Obj) => {
@@ -73,5 +86,6 @@ const userLogin = (req, res) => {
 module.exports = {
   uploadImg,
   writeIn,
-  userLogin
+  userLogin,
+  deleteData
 }

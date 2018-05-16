@@ -11,7 +11,11 @@ const Middleware = (req, res, next) => {
 }
 
 const showUpload = (req, res) => {
-  res.render('./admin/upload');
+  res.render('./admin/upload', {
+    "data": {
+      category: category
+    }
+  })
 }
 
 const showAdmin = (req, res) => {

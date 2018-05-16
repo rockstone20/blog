@@ -11,7 +11,24 @@
     .topbar .write {display:block; background:#1e88e5; color:#fff; float:right; padding:0 20px;}
     .topbar li {padding:0 12px; border-right:1px solid #e0e0e0; float:left; line-height:40px;}
     .topbar li a {display:block;}
+
+    .itemBox {padding:10px 0; border-bottom:1px solid #ddd;}
+    .edit {margin-left:20px;}
 </style>
+<script src="/js/ajax.js"></script>
+<script>
+ var deleteOne = function (item) {
+   if( confirm('确认删除吗？')== false) {
+     return false
+   }
+   $ajax('post','/admin/delete',item, function (data) {
+     console.log(data);
+     if(data.ok===0) {
+       location.reload()
+     }
+   })
+  }
+</script>
 </head>
 <body>
 <div>
@@ -24,11 +41,22 @@
         <a class="write" href="/admin/upload">发布</a>
     </div>
 
+    <div style="padding:20px;">
+        <%for (var i=0; i<data.list.length; i++) {%>
+        <% var item =  data.list[i]%>
+        <div class="itemBox clearfix">
+            <h2 class="fl"><a href="/detail/<%=data.list[i].id%>.html" target="_blank"><%=data.list[i].title%></a></h2>
+            <a class="fr edit" > 编辑 </a>
+            <a class="fr del" onClick="deleteOne(<%=JSON.stringify(data.list[i])%>)">删除</a>
+        </div>
+        <%}%>
+    </div>
 </div>
 
 <script>
 var list = <%- JSON.stringify(data.list) %> ;
 console.log(list);
+
 </script>
 </body>
 </html>
