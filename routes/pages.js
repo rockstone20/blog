@@ -11,6 +11,6 @@ module.exports = app => {
   app.get("/admin", (req, res) => { res.redirect('/admin/note/all') });
   app.get("/admin/note", (req, res) => { res.redirect('/admin/note/all') });
   app.get("/admin/note/:id", Master.showAdmin); //管理页
-  app.get("/admin/note/all/:id", Master.showUpdata); //管理页
+  app.get("/admin/note/all/:id", Master.showUpdata); //数据修改
   app.get("/admin/upload", Master.showUpload); //上传页
 }

@@ -5,8 +5,11 @@ const DB_One = require('../../model/dbfindone');
 const Util = require('../../utils/util');
 
 const showIndex = (req, res) => {
-  res.render('index', {
-    "title": '飒飒啊'
+  res.render('home', {
+    "data": {
+      category: category,
+      list: []
+    }
   })
 }
 

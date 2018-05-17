@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="博客">
+  <meta name="description" content="个人博客，记录博主学习和成长的一个自媒体博客。">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>个人博客</title>
+  <link rel="stylesheet" href="/css/css.css">
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body class="body-bg">
+<div class="side-bar">
+  <div class="face-wrapper">
+    <div class="face"><img src="images/face.jpg" width="100%"></div>
+  </div>
+  <div class="notes-wrapper">
+    <p class="title">笔记归档：</p>
+    <% for(var i=0; i<data.category.length; i++) { %>
+      <a href="/list/<%=data.category[i].key%>.html" class="tags"><%=data.category[i].value%></a>
+    <% } %>
+  </div>
+
+  <div class="btn-wrapper">
+    <a class="links github" href="https://github.com/rockstone20" target="_blank">
+      <span></span><br/>github
+    </a>
+    <a class="links zcool" href="http://www.zcool.com.cn/u/563022" target="_blank">
+      <span></span><br/>站酷 zcool
+    </a>
+  </div>
+
+</div>
+
+
+<script>
+var list = <%- JSON.stringify(data.category)%> ;
+console.log(list);
+</script>
+
+</body>
+</html>
