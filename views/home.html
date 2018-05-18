@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/css/css.css">
   <link rel="stylesheet" href="/css/home.css">
 </head>
-<body class="body-bg">
+<body class="body-bg" style="background:#f5f5f5">
 <div class="side-bar">
   <div class="face-wrapper">
     <div class="face"><img src="images/face.jpg" width="100%"></div>
@@ -32,10 +32,15 @@
 
 </div>
 
-
+<script src="/js/jquery-1.10.1.min.js"></script>
 <script>
 var list = <%- JSON.stringify(data.category)%> ;
 console.log(list);
+
+$('.side-bar').on('click', function () {
+  var SlideWidth =  $(this).width() > 100 ? '100px' : '360px' ;
+  $(this).animate({ width: SlideWidth })
+})
 </script>
 
 </body>
