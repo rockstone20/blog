@@ -18,7 +18,7 @@ const findPre = _ID => new Promise((resolve) => {
 });
 
 const findNext = _ID => new Promise((resolve) => {
-  models.blog.findOne({'_id': {'$gt': _ID} }).sort({_id: -1}).exec((err, result) => {
+  models.blog.findOne({'_id': {'$gt': _ID} }).sort({_id: 1}).exec((err, result) => {
     resolve(result)
   })
 });

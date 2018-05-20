@@ -1,15 +1,18 @@
 const URL = require('url');
-const category = require('../../utils/category');
+const classify = require('../../utils/classify');
 const DB_findlist = require('../../model/dbfindlist');
 const DB_One = require('../../model/dbfindone');
 const Util = require('../../utils/util');
 
 const showIndex = (req, res) => {
-  res.render('home', {
-    "data": {
-      category: category,
-      list: []
-    }
+  DB_findlist(req, res).then((data) => {
+    res.render('home', {
+      "data": {
+        category: classify,
+        list: data[1],
+        count: data[0]
+      }
+    })
   })
 }
 
@@ -20,14 +23,11 @@ const showList = (req, res) => {
   let nowPage = 1;
   if(Arr.length > 1) nowPage = JSON.parse(Arr[1]);
   DB_findlist(req, res).then((datalist) => {
-    if (!datalist[1].length) {
-      return res.redirect('/404')
-    }
-    res.render('list', {
+    res.render('home', {
       "data": {
         title: '列表页',
         count: datalist[0],
-        category: category,
+        category: classify,
         list: datalist[1],
         nowpage: nowPage,
         path: Arr[0]
@@ -47,9 +47,10 @@ const showDetail = (req, res) => {
       res.render('./detail/detail',{
         'data' : {
           title: '详情',
+          category: classify,
           detail: result,
-          pre: data[0],
-          next: data[1]
+          pre: data[1],
+          next: data[0]
         }
       })
     })

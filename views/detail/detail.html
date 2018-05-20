@@ -5,15 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= data.title %></title>
   <link rel="stylesheet" href="/css/css.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <style>
+    .imgBox { position:relative;}
+    .imgBox>img { outline-width:0px; vertical-align:top; }
+    .imgBox .msgbox {position:absolute; height:30px; left:0; bottom:0; background:rgba(0,0,0,.3); line-height:30px; color:#fff; padding-left:16px;}
+    .imgBox .msgbox>span {padding-right:16px; font-size:12px;}
+
+    .detail-wrapper {background:#fff; padding:20px;}
+    .detail img{max-width:100%;}
+  </style>
 </head>
-<body>
-<h1> <%=data.detail.title%></h1>
-<div> <%- data.detail.detail%> </div>
+<body class="body-bg" >
 
+<div class="side-bar">
+  <div class="face-wrapper">
+    <div class="face"><img src="/images/face.jpg" width="100%"></div>
+  </div>
+
+  <div class="notes-wrapper">
+    <p class="title">笔记归档：</p>
+    <% for (var key in data.category) { %>
+    <a href="/list/<%=key%>.html" class="tags"><%=data.category[key]%></a>
+    <% } %>
+  </div>
+
+  <div class="btn-wrapper">
+    <a class="links github" href="https://github.com/rockstone20" target="_blank">
+      <span></span><br/>github
+    </a>
+    <a class="links zcool" href="http://www.zcool.com.cn/u/563022" target="_blank">
+      <span></span><br/>站酷 zcool
+    </a>
+  </div>
+</div>
+
+<div class="content">
+  <div class="detail-wrapper">
+    <h2><%- data.detail.title %></h2>
+    <div class="detail">
+      <%- data.detail.detail %>
+    </div>
+  </div>
+</div>
+
+<script src="/js/exif.js"> </script>
 <script>
-  var detail = <%- JSON.stringify(data) %> ;
-  console.log(detail);
-
+  if (window.location.href.indexOf('photos') > 0) {
+    var $imgBox = document.querySelectorAll('.imgBox');
+    $imgBox.forEach(function (item, index) {
+      var IMG = item.getElementsByTagName('img')[0];
+      IMG.onload = function () {
+        var Width = IMG.width;
+        EXIF.getData(IMG, function() {
+          var _data = EXIF.getAllTags(this);
+          var Htmltxt = '';
+          if(_data.Model){
+            Htmltxt = '<span>设备:' + _data.Model + '</span>'
+              + '<span>光圈:f' +  _data.FNumber.numerator/_data.FNumber.denominator + '</span>'
+              + '<span>快门:' + _data.ExposureTime.numerator + '/' + _data.ExposureTime.denominator + '</span>'
+              + '<span>焦距:' + _data.FocalLength.numerator/_data.FocalLength.denominator + '</span>'
+              + '<span>ios:' + _data.ISOSpeedRatings + '</span>'
+              + '<span>光爆补偿:' + _data.ExposureBias.toFixed(1) + '</span>'
+          }
+          var msgBox = document.createElement('div');
+          msgBox.className = 'msgbox';
+          msgBox.style.width = Width + 'px';
+          msgBox.innerHTML = Htmltxt;
+          if(Htmltxt) $imgBox[index].appendChild(msgBox);
+        })
+      }
+    })
+  }
 </script>
 </body>
 </html>

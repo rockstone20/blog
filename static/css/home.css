@@ -1,11 +1,13 @@
 .body-bg {background:url("../images/pixel-pattern.png"); background-size:2px 2px;}
 
-.side-bar {width:360px; height:100%; background:#fff; position:absolute; left:0; top:0; bottom:0;}
+.side-bar {width:360px; height:100%; background:#fff; position:fixed; left:0; top:0; bottom:0;}
 .face-wrapper {padding:40px 0;}
 .face {width:150px; height:150px; border-radius:50%; overflow:hidden; margin: auto;}
 .notes-wrapper {margin-right:40px; border-top:1px solid #e9e9e9;}
 .notes-wrapper .tags {display:inline-block; line-height:36px; padding:0 16px; border-radius:20px; border:1px solid #e9e9e9; color:#666; margin-left:20px; margin-top:20px;}
 .notes-wrapper .title {padding-left:20px; font-size:16px; padding-top:20px;}
+.notes-wrapper a {transition:all 0.4s linear;}
+.notes-wrapper a:hover {background:#1e88e5; color:#fff; border-color: #1e88e5;}
 
 .btn-wrapper {position:absolute; left:40px; right:0; bottom:0; height:136px; border-top:1px solid #e9e9e9; padding-left:60px; padding-top:30px;}
 .links {display:inline-block; text-align:center; margin-right:60px; color:#999}
@@ -15,3 +17,21 @@
 .links.github:hover>span {background-position:0 46px;}
 .links.zcool:hover {color: #ffad40}
 .links.zcool:hover>span {background-position:46px 46px;}
+
+.content {padding: 20px 40px 40px  400px; min-height:100%;}
+.notes-item {background:#fff; padding:10px 16px; border-radius:2px; margin-top:20px;}
+.notes-item h3{font-size:18px; margin-bottom:6px; white-space: nowrap; overflow:hidden; text-overflow:ellipsis;}
+.notes-item p {line-height:20px; color:#999;}
+.notes-item p>span {margin-right:10px;}
+.notes-item .icon {width:18px; height:18px; display:inline-block; vertical-align:middle; background-size:100%; margin-right:0;}
+.notes-item .imgs {margin-bottom:10px;}
+.notes-item .imgs img {height:70px; margin-right:16px; display:inline-block;}
+
+.icon.css {background-image:url("../images/icon/html.png")}
+.icon.js {background-image:url("../images/icon/js.png")}
+.icon.linux {background-image:url("../images/icon/linux.png")}
+.icon.vue {background-image:url("../images/icon/vue.png")}
+.icon.ps {background-image:url("../images/icon/ps.png")}
+.icon.node {background-image:url("../images/icon/node.png")}
+.icon.photos {background-image:url("../images/icon/photos.png")}
+.icon.react {background-image:url("../images/icon/react.png")}

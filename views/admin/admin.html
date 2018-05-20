@@ -34,8 +34,8 @@
 <div>
     <div class="topbar">
         <ul>
-            <%for (var i=0; i<data.category.length; i++) {%>
-                <li><a href="/admin/note/<%=data.category[i].key%>"> <%= data.category[i].value %> </a></li>
+            <%for (var key in data.category) {%>
+                <li><a href="/admin/note/<%=key%>"> <%= data.category[key] %> </a></li>
             <%}%>
         </ul>
         <a class="write" href="/admin/upload">发布</a>

@@ -9,15 +9,16 @@
   <link rel="stylesheet" href="/css/css.css">
   <link rel="stylesheet" href="/css/home.css">
 </head>
-<body class="body-bg" style="background:#f5f5f5">
+<body class="body-bg" >
 <div class="side-bar">
   <div class="face-wrapper">
-    <div class="face"><img src="images/face.jpg" width="100%"></div>
+    <div class="face"><img src="/images/face.jpg" width="100%"></div>
   </div>
+
   <div class="notes-wrapper">
     <p class="title">笔记归档：</p>
-    <% for(var i=0; i<data.category.length; i++) { %>
-      <a href="/list/<%=data.category[i].key%>.html" class="tags"><%=data.category[i].value%></a>
+    <% for (var key in data.category) { %>
+      <a href="/list/<%=key%>.html" class="tags"><%=data.category[key]%></a>
     <% } %>
   </div>
 
@@ -29,18 +30,40 @@
       <span></span><br/>站酷 zcool
     </a>
   </div>
-
 </div>
 
-<script src="/js/jquery-1.10.1.min.js"></script>
+<div class="content">
+  <% for(var i=0; i<data.list.length; i++) { %>
+    <div class="notes-item">
+      <h3><a href="/detail/<%=data.list[i].id%>.html" target="_blank"><%=data.list[i].title%></a></h3>
+
+      <% var imgs =  data.list[i].imgs_url.split(',')%>
+      <% if (data.list[i].type == 'photos') {%>
+        <div class="imgs">
+          <% for (var j=0; j<imgs.length; j++) { %>
+            <img src="<%=imgs[j]%>"/>
+          <% } %>
+        </div>
+      <% } %>
+
+      <p>
+        <span class="icon <%=data.list[i].type%>"></span>
+        <span class="note-type"><%=data.category[data.list[i].type]%></span>
+        <span><%- data.list[i].articletype == "original" ? '原创文章' : '转载' %></span>
+        <span>发布时间：<%=data.list[i].createtime%></span>
+      </p>
+    </div>
+  <% } %>
+</div>
+
+<script src="/js/jquery-1.10.2.min.js"></script>
 <script>
-var list = <%- JSON.stringify(data.category)%> ;
+
+var category = <%- JSON.stringify(data.category)%> ;
+var list = <%- JSON.stringify(data.list)%> ;
+console.log(category);
 console.log(list);
 
-$('.side-bar').on('click', function () {
-  var SlideWidth =  $(this).width() > 100 ? '100px' : '360px' ;
-  $(this).animate({ width: SlideWidth })
-})
 </script>
 
 </body>

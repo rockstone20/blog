@@ -34,8 +34,8 @@
 
 <select id="select">
   <option value="">请选择分类</option>
-  <% for(var i=0; i<data.category.length; i++) {  %>
-    <option value="<%=data.category[i].key%>"><%=data.category[i].value%></option>
+  <% for(var key in data.category) {  %>
+    <option value="<%=key%>"> <%-data.category[key]%> </option>
   <% } %>
 </select>
 

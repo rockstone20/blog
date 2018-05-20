@@ -1,4 +1,4 @@
-const category = require('../../utils/category');
+const classify = require('../../utils/classify');
 const DBfind = require('../../model/dbfindlist');  //数据查询
 const DB_One = require('../../model/dbfindone');
 
@@ -14,7 +14,7 @@ const Middleware = (req, res, next) => {
 const showUpload = (req, res) => {
   res.render('./admin/upload', {
     "data": {
-      category: category
+      category: classify
     }
   })
 }
@@ -24,7 +24,7 @@ const showAdmin = (req, res) => {
     res.render('./admin/admin', {
       "data": {
         count: datalist[0],
-        category: category,
+        category: classify,
         list: datalist[1]
       }
     })
