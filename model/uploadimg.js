@@ -22,7 +22,7 @@ const getImgName = (path) => {
 }
 
 exports.saveImg = (fields, files) => {
-  let dirpath = path.normalize(__dirname + '/../uploads/' + fields.type);  // 保存的文件夹
+  let dirpath = path.normalize(__dirname + '/../uploads/' + fields.type);  // 图片保存的文件夹
 
   return new Promise((resolve, reject) => {
     mkdir(dirpath, function (dir) {
@@ -31,6 +31,7 @@ exports.saveImg = (fields, files) => {
       let newPath = dir + '/' + ImgName;
 
       fs.renameSync(oldPath, newPath); //移动文件
+      console.log(newPath)
       resolve('/' + fields.type + '/' + year + '/' + ImgName)
     })
   })

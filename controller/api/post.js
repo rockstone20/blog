@@ -27,7 +27,7 @@ const uploadImg = (req, res) => {
   }).then(imgPath => {
     res.json({
       ok: 0,
-      url: imgPath
+      url: imgPath //相对路径
     })
   })
 }

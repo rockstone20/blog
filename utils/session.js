@@ -8,11 +8,11 @@ const sess = {
   store: new MongoStore({
     url: 'mongodb://localhost:27017/blog',
     autoRemove: 'interval',
-    autoRemoveInterval: 60 // 分钟
+    autoRemoveInterval: 12 * 60 // 分钟
   }),
   saveUninitialized: false, // 是否自动保存未初始化的会话，建议false
   resave: false, // 是否每次都重新保存会话，建议false
-  cookie: { maxAge: 60 * 60 * 1000 }// 有效期，单位是毫秒
+  cookie: { maxAge: 12 * 60 * 60 * 1000 }// 有效期，单位是毫秒
 }
 
 module.exports = session(sess);
