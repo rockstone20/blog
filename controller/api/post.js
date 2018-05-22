@@ -66,8 +66,9 @@ const deleteData = (req, res) => {
 //更新
 const Updata= (req, res) => {
   _FormIdable(req).then(Obj => {
-    let UpdataOne = new models.blog(Obj.fields);
-    UpdataOne.update((err) => {
+    let UpdataMsg = Obj.fields;
+    var updates = { $set: UpdataMsg };
+    models.blog.update({id: UpdataMsg.id}, updates, (err) => {
       if (err) return console.error(err);
       res.json({
         ok: 0,
